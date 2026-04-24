@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jules | Aesthetic Editor & Founder</title>
+    <style>
+        :root {
+            --maroon: #6e1011;
+            --cream: #f4efdb;
+            --font-script: 'Cormorant Upright', serif; /* Approximate script font */
+            --font-serif: 'Marcellus', serif;       /* Approximate serif font */
+        }
+
+        body {
+            background-color: var(--maroon);
+            color: var(--cream);
+            font-family: var(--font-serif);
+            margin: 0;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        section {
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            box-sizing: border-box;
+            padding: 5vh 5%;
+        }
+
+        /* PAGE 1 Styling */
+        #hero {
+            position: relative;
+            justify-content: flex-start;
+            padding-top: 10vh;
+        }
+        #hero .main-name {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 5vh;
+            margin-right: auto;
+        }
+        #hero .script-jules {
+            font-family: var(--font-script);
+            font-size: 15rem;
+            line-height: 1;
+            color: var(--cream);
+            margin-right: -1.5rem;
+            margin-top: -3rem;
+        }
+        #hero .block-names {
+            font-family: var(--font-serif);
+            font-size: 3rem;
+            color: var(--cream);
+            line-height: 1.1;
+        }
+        #hero .flower-header {
+            width: 15rem;
+            position: absolute;
+            top: 5vh;
+            right: 0;
+            opacity: 0.8;
+            transform: rotate(-10deg);
+        }
+        #hero .meet-the-editor {
+            font-family: var(--font-serif);
+            font-size: 2.5rem;
+            color: var(--cream);
+            margin-left: auto;
+            margin-bottom: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+        #hero .meet-the-editor span { display: block; line-height: 1.1; text-align: right; }
+        #hero p {
+            max-width: 600px;
+            font-size: 1rem;
+            text-align: right;
+            margin-left: auto;
+            line-height: 1.6;
+        }
+        #hero .hibiscus {
+            width: 25rem;
+            opacity: 0.6;
+            transform: translate(5rem, 5rem);
+            margin-top: auto;
+        }
+
+        /* PAGE 2 Styling */
+        #tools {
+            position: relative;
+        }
+        #tools .tools-header {
+            display: flex;
+            align-items: flex-start;
+            margin-right: auto;
+            position: absolute;
+            top: 10vh;
+            left: 5%;
+        }
+        #tools .phone-icon {
+            width: 7rem;
+            transform: rotate(-30deg);
+            margin-right: 1rem;
+        }
+        #tools .block-tools {
+            font-family: var(--font-serif);
+            font-size: 3rem;
+            color: var(--cream);
+            line-height: 1.1;
+        }
+        #tools .star-overlay {
+            width: 40rem;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-5deg);
+            opacity: 0.15;
+            pointer-events: none;
+        }
+        #tools .tools-list {
+            max-width: 600px;
+            text-align: right;
+            margin-left: auto;
+            margin-top: 15rem;
+            z-index: 10;
+        }
+        #tools .tool-entry { margin-bottom: 2rem; }
+        #tools .tool-entry h3 {
+            font-family: var(--font-script);
+            font-size: 2.5rem;
+            margin: 0;
+            margin-right: -0.5rem;
+            display: inline-block;
+        }
+        #tools .tool-entry p { margin: 0; font-size: 1rem; line-height: 1.6; }
+
+        /* PAGE 3 (FAQ) Styling with Dropdowns */
+        #faq {
+            align-items: flex-start;
+        }
+        #faq .faq-header {
+            position: absolute;
+            top: 10vh;
+            left: 5%;
+            font-family: var(--font-serif);
+            font-size: 3.5rem;
+            color: var(--cream);
+            display: flex;
+            align-items: center;
+        }
+        #faq .faq-star {
+            font-size: 1.5rem;
+            color: rgba(244, 239, 219, 0.5);
+            margin-left: 1rem;
+            position: relative;
+            top: 0.2rem;
+        }
+        
+        .faq-container {
+            width: 100%;
+            max-width: 800px;
+            margin-top: 25vh; /* Adjust for header */
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .faq-item {
+            border-bottom: 1px solid rgba(244, 239, 219, 0.2);
+            padding: 1.5rem 0;
+        }
+        .faq-question {
+            width: 100%;
+            background: none;
+            border: none;
+            color: var(--cream);
+            font-family: var(--font-serif);
+            font-size: 1.5rem;
+            text-align: left;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            outline: none;
+        }
+        .faq-question .arrow {
+            font-size: 1rem;
+            transition: transform 0.3s ease;
+            position: relative;
+            right: 1rem;
+        }
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, padding 0.3s ease;
+            padding: 0;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+        .faq-answer span.bold { font-weight: bold; }
+        .faq-answer.show {
+            max-height: 1000px; /* Large value to allow full expansion */
+            padding-top: 1rem;
+        }
+        .faq-item.active .arrow {
+            transform: rotate(90deg);
+        }
+
+        /* PAGE 4 (Worked With) Styling */
+        #clients {
+            align-items: center;
+            justify-content: center;
+        }
+        #clients h2 {
+            font-family: var(--font-serif);
+            font-size: 3rem;
+            color: var(--cream);
+            text-align: center;
+            margin-bottom: 5rem;
+        }
+        .client-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(150px, 1fr));
+            gap: 40px;
+            max-width: 900px;
+            width: 100%;
+        }
+        .client-link {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: transparent;
+            padding: 20px;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            cursor: pointer;
+        }
+        .client-link img {
+            width: 100%;
+            height: auto;
+            max-width: 120px;
+            object-fit: contain;
+            opacity: 0.8;
+            filter: grayscale(100%) brightness(1.5);
+            transition: filter 0.3s ease, opacity 0.3s ease;
+        }
+        .client-link:hover img {
+            filter: grayscale(0%) brightness(1);
+            opacity: 1;
+        }
+        .client-link:hover {
+            transform: scale(1.05);
+        }
+
+        /* PAGE 5 (Contact) Styling */
+        #contact {
+            align-items: center;
+            justify-content: center;
+        }
+        #contact .contact-title {
+            font-family: var(--font-serif);
+            font-size: 4rem;
+            color: var(--cream);
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+        #contact .contact-symbols {
+            font-size: 2.5rem;
+            color: rgba(244, 239, 219, 0.4);
+            text-align: center;
+            margin-bottom: 5rem;
+            letter-spacing: 1rem;
+        }
+        
+        .contact-form {
+            width: 100%;
+            max-width: 500px;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .form-group label {
+            font-family: var(--font-serif);
+            font-size: 1rem;
+            color: var(--cream);
+            text-align: right;
+        }
+        .form-group input,
+        .form-group textarea {
+            background-color: var(--cream);
+            border: none;
+            color: var(--maroon);
+            padding: 15px;
+            font-family: var(--font-serif);
+            font-size: 1rem;
+            border-radius: 5px;
+            box-sizing: border-box;
+            outline: none;
+            text-align: left;
+        }
+        .form-group textarea {
+            resize: vertical;
+            height: 150px;
+        }
+        .submit-btn {
+            font-family: var(--font-serif);
+            background-color: var(--cream);
+            border: none;
+            color: var(--maroon);
+            padding: 15px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            border-radius: 5px;
+            align-self: flex-end;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            margin-top: 1rem;
+            width: 150px;
+            font-weight: bold;
+        }
+        .submit-btn:hover {
+            background-color: rgba(244, 239, 219, 0.8);
+        }
+
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Upright:wght@300;400;500;600;700&family=Marcellus&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <section id="hero">
+        <div class="main-name">
+            <span class="script-jules">Jules</span>
+            <span class="block-names">Aaradhya<br>Pandey</span>
+        </div>
+        <img src="images/flower_header.png" alt="Header Flower" class="flower-header">
+        
+        <div class="meet-the-editor">
+            <span>meet the</span>
+            <span>editor</span>
+        </div>
+        
+        <p>Hii there! I'm a 16-year-old dreamer and freelance editor based in<br>India.</p>
+        <p>My journey into editing started with a simple love for human connection, there is something so beautiful about stepping into a creator's world through their raw clips and seeing life through a lens thousands of miles away.</p>
+        <p>Since 2025, I've dedicated myself to the art of the 'final touch.' For me, editing isn't just about cutting; it's about finding the rhythm in the quiet moments and the magic in the everyday. I pour my heart into every frame to ensure the final product feels just as satisfying to watch as it was to create.</p>
+        
+        <img src="images/hibiscus_large.png" alt="Large Hibiscus" class="hibiscus">
+    </section>
+
+    <section id="tools">
+        <div class="tools-header">
+            <img src="images/phone_icon.png" alt="Phone Icon" class="phone-icon">
+            <span class="block-tools">tools&<br>skills</span>
+        </div>
+        
+        <img src="images/star_background.png" alt="Star Background" class="star-overlay">
+        
+        <div class="tools-list">
+            <div class="tool-entry">
+                <h3>Capcut</h3>
+                <p>I use this for the entire editing process.<br>I focus on the flow and pacing of your story, taking the raw footage from the first cut to the final color and sound polish.</p>
+            </div>
+            <div class="tool-entry">
+                <h3>Canva</h3>
+                <p>I use this to create custom thumbnails upon request.<br>I focus on making sure the visual matches the vlog's energy to help the video stand out before someone even clicks.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="faq">
+        <div class="faq-header">
+            faq
+            <span class="faq-star">✦˚ ༘ ⋆｡♡˚</span>
+        </div>
+        
+        <div class="faq-container">
+            <div class="faq-item">
+                <button class="faq-question">
+                    What is your pricing?
+                    <span class="arrow">▶</span>
+                </button>
+                <div class="faq-answer">
+                    My prices are quite reasonable.<br>
+                    For a vlog of around <span class="bold">1-20 minutes</span> the cost is <span class="bold">$40</span>.<br><br>
+                    (Includes: editing of footages, transitions, infinite round of revesions)<br>
+                    Music must be provided by you if using a paid application (ex: artlist, thematic etc)<br>
+                    Also you must provide the means of video transferring (masv. , google drive)
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    How much days you take for editing?
+                    <span class="arrow">▶</span>
+                </button>
+                <div class="faq-answer">
+                    It usually takes around a <span class="bold">week</span> after completing revesions and have the final video delivered to you.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    do you require credit?
+                    <span class="arrow">▶</span>
+                </button>
+                <div class="faq-answer">
+                    <span class="bold">Yes</span>, please link my website in either your video's discription or in your channel's about page.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="clients">
+        <h2>people I've worked with:</h2>
+        
+        <div class="client-grid">
+            <a href="https://www.youtube.com/@channel1" target="_blank" class="client-link">
+                <img src="images/client_logo_1.png" alt="Channel 1 Logo">
+            </a>
+            <a href="https://www.youtube.com/@channel2" target="_blank" class="client-link">
+                <img src="images/client_logo_2.png" alt="Channel 2 Logo">
+            </a>
+            <a href="https://www.youtube.com/@channel3" target="_blank" class="client-link">
+                <img src="images/client_logo_3.png" alt="Channel 3 Logo">
+            </a>
+            <a href="https://www.youtube.com/@channel4" target="_blank" class="client-link">
+                <img src="images/client_logo_4.png" alt="Channel 4 Logo">
+            </a>
+            <a href="https://www.youtube.com/@channel5" target="_blank" class="client-link">
+                <img src="images/client_logo_5.png" alt="Channel 5 Logo">
+            </a>
+            <a href="https://www.youtube.com/@channel6" target="_blank" class="client-link">
+                <img src="images/client_logo_6.png" alt="Channel 6 Logo">
+            </a>
+        </div>
+    </section>
+
+    <section id="contact">
+        <h1 class="contact-title">Let's Talk!</h1>
+        <div class="contact-symbols">✧˚ ༘ ⋆｡♡˚</div>
+        
+        <form class="contact-form" action="mailto:aaradhyapandey46@gmail.com" method="post" enctype="text/plain">
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="user_email" required>
+            </div>
+            <div class="form-group">
+                <label for="message">Message:</label>
+                <textarea id="message" name="user_message" required></textarea>
+            </div>
+            <button type="submit" class="submit-btn">Submit</button>
+        </form>
+    </section>
+
+    <script>
+        // Dropdown functionality
+        document.querySelectorAll('.faq-question').forEach(button => {
+            button.addEventListener('click', () => {
+                const faqItem = button.parentElement;
+                const faqAnswer = button.nextElementSibling;
+                
+                // Toggle active class on item for arrow rotation
+                faqItem.classList.toggle('active');
+                
+                // Toggle show class on answer for expansion animation
+                faqAnswer.classList.toggle('show');
+            });
+        });
+    </script>
+</body>
+</html>
